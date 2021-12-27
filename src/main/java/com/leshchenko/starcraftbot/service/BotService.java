@@ -1,6 +1,6 @@
 package com.leshchenko.starcraftbot.service;
 
-import com.leshchenko.starcraftbot.listener.CommandListener;
+import com.leshchenko.starcraftbot.command.CreateTable;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import org.springframework.stereotype.Service;
@@ -17,20 +17,12 @@ public class BotService {
         try {
             jda = JDABuilder
                     .createDefault(SECRET_TOKEN)
-                    .addEventListeners(new CommandListener())
+                    .addEventListeners(new CreateTable())
                     .build();
-        } catch (LoginException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void sendMessage(String channel, String message) {
-        try {
             jda
-                    .getTextChannelById(channel)
-                    .sendMessage(message)
+                    .upsertCommand("start", "Создается новая таблица")
                     .queue();
-        } catch (Exception e) {
+        } catch (LoginException e) {
             e.printStackTrace();
         }
     }
