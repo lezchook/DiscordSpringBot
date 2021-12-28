@@ -19,7 +19,6 @@ import javax.jws.soap.SOAPBinding;
 
 public class AddPlayer extends ListenerAdapter {
 
-
     private DataBaseService dataBaseService;
 
     public AddPlayer(DataBaseService dataBaseService) {

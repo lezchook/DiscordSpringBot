@@ -5,6 +5,8 @@ import com.leshchenko.starcraftbot.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DataBaseService {
 
@@ -22,5 +24,13 @@ public class DataBaseService {
         User user = userRepo.findByUsername(username);
         user.setCount(user.getCount() + 1);
         userRepo.save(user);
+    }
+
+    public List<User> showTable() {
+        return userRepo.findAllBy();
+    }
+
+    public void deleteAll() {
+        userRepo.deleteAll();
     }
 }

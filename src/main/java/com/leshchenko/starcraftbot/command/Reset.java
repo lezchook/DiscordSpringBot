@@ -4,18 +4,18 @@ import com.leshchenko.starcraftbot.service.DataBaseService;
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-public class ScoreAdd extends ListenerAdapter {
+public class Reset extends ListenerAdapter {
 
     private DataBaseService dataBaseService;
 
-    public ScoreAdd(DataBaseService dataBaseService) {
+    public Reset(DataBaseService dataBaseService) {
         this.dataBaseService = dataBaseService;
     }
 
     public void onSlashCommand(SlashCommandEvent event) {
-        if (event.getName().equals("score")) {
-            dataBaseService.addScore(event.getUser().getName());
-            event.reply("Добавлено очко: " + event.getUser().getName()).submit();
+        if (event.getName().equals("reset")) {
+            dataBaseService.deleteAll();
+            event.reply("Таблица сброшена").submit();
         }
     }
 
