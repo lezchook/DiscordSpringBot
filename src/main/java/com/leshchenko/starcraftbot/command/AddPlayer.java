@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.Iterator;
+import java.util.List;
 
 public class AddPlayer extends ListenerAdapter {
 
@@ -27,9 +29,25 @@ public class AddPlayer extends ListenerAdapter {
 
     public void onSlashCommand(SlashCommandEvent event) {
         if (event.getName().equals("add")) {
+            List<User> users = dataBaseService.showTable();
+            Iterator<User> iterator = users.iterator();
+            int i = 0;
+            if (!iterator.hasNext()) {
+                dataBaseService.saveUser(event.getUser().getName());
+                event.reply("Добавлен новый игрок: " + event.getUser().getName()).submit();
+                return;
+            }
+            while (iterator.hasNext()) {
+                User user = users.get(i);
+                if (user.getUsername().equals(event.getUser().getName())) {
+                    event.reply("Вы уже добавлены").submit();
+                    return;
+                }
+                i++;
+                iterator.next();
+            }
             dataBaseService.saveUser(event.getUser().getName());
             event.reply("Добавлен новый игрок: " + event.getUser().getName()).submit();
         }
     }
-
 }
