@@ -5,6 +5,7 @@ import com.leshchenko.starcraftbot.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -32,5 +33,23 @@ public class DataBaseService {
 
     public void deleteAll() {
         userRepo.deleteAll();
+    }
+
+    public boolean containCheck(String username) {
+        List<User> users = this.showTable();
+        Iterator<User> iterator = users.iterator();
+        int i = 0;
+        if (!iterator.hasNext()) {
+            return false;
+        }
+        while (iterator.hasNext()) {
+            User user = users.get(i);
+            if (user.getUsername().equals(username)) {
+                return true;
+            }
+            i++;
+            iterator.next();
+        }
+        return false;
     }
 }

@@ -14,8 +14,12 @@ public class ScoreAdd extends ListenerAdapter {
 
     public void onSlashCommand(SlashCommandEvent event) {
         if (event.getName().equals("score")) {
-            dataBaseService.addScore(event.getUser().getName());
-            event.reply("Добавлено очко: " + event.getUser().getName()).submit();
+            if (!dataBaseService.containCheck(event.getUser().getName())) {
+                event.reply("В начале Вам нужно добавиться в таблицу").submit();
+            } else {
+                dataBaseService.addScore(event.getUser().getName());
+                event.reply("Добавлено очко: " + event.getUser().getName()).submit();
+            }
         }
     }
 
